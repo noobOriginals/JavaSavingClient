@@ -1,3 +1,3 @@
 #! /usr/bin/bash
-dir=$(cygpath -w $(dirname "$0"))
-java -jar $dir/SaveClient.jar $@
+jar_path="$(cygpath -a -d "$(dirname "$0")/SaveClient.jar")"
+java -jar $jar_path $@
