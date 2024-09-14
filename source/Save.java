@@ -107,7 +107,7 @@ public class Save {
 		
 		System.out.println("Saved from \"" + source + "\" to \"" + target + "\".");
 		System.out.println("Save name is \"" + saveName + "\".\nOwner is \"" + owner + "\".\nDate is [" + date + " at " + time + "].\n");
-		System.out.println("All info saved in \"SaveLog.txt\".\nPath to \"SaveLog.txt\" is \"" + folderPath + "\".\n");
+		System.out.println("All info saved in \"SaveLog.txt\".\nPath to \"SaveLog.txt\" is \"" + folderPath + "SaveLog.txt\".\n");
 	}
 	
 	static String getFolder(String path) {

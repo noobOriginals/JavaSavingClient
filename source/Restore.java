@@ -86,7 +86,7 @@ public class Restore {
 		fileWriter.close();
 		
 		System.out.println("Restored save \"" + getSaveName(target) + "\".\n");
-		System.out.println("More info about the restored save can be found in \"SaveLog.txt\".\nPath to \"SaveLog.txt\" is \"" + folderPath + "\".\n");
+		System.out.println("More info about the restored save can be found in \"SaveLog.txt\".\nPath to \"SaveLog.txt\" is \"" + folderPath + "SaveLog.txt\".\n");
 	}
 	
 	static String getFolder(String path) {
