@@ -22,13 +22,14 @@ public class Restore {
 	static BufferedReader fileReader;
 	static BufferedWriter fileWriter;
 	static Path sourceDir, targetDir;
-	static String source, target, save, saveLogContent, date, time;
+	static String source, target, save, saveLogContent, date, time, folderPath;
 	static int saveNr;
 	static boolean nrProvided;
 	
 	public static void run(String[] args) throws Exception {
 		date = LocalDate.now() + "";
 		time = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + ":" + LocalTime.now().getSecond();
+		folderPath = getFolder(new File(Restore.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath());
 		
 		nrProvided = false;
 		for (int i = 0; i < args.length; i++) {
@@ -50,7 +51,7 @@ public class Restore {
 		saveNr = Integer.parseInt(save);
 		
 		try {
-			fileReader = new BufferedReader(new FileReader("SavePaths.txt"));
+			fileReader = new BufferedReader(new FileReader(folderPath + "SavePaths.txt"));
 		} catch (Exception e) {
 			System.out.println("\"SavePaths.txt\" is missing!\nPlease provide a \"SavePaths.txt\" file!\n");
 			throw e;
@@ -65,10 +66,10 @@ public class Restore {
 		copyPaths(targetDir, sourceDir);
 		
 		try {
-			fileReader = new BufferedReader(new FileReader("SaveLog.txt"));
+			fileReader = new BufferedReader(new FileReader(folderPath + "SaveLog.txt"));
 		} catch (IOException e) {
-			new FileWriter("SaveLog.txt").close();
-			fileReader = new BufferedReader(new FileReader("SaveLog.txt"));
+			new FileWriter(folderPath + "SaveLog.txt").close();
+			fileReader = new BufferedReader(new FileReader(folderPath + "SaveLog.txt"));
 			System.out.println("Creating \"SaveLog.txt\".\n");
 		}
 		String line = "";
@@ -79,13 +80,20 @@ public class Restore {
 		}
 		fileReader.close();
 		
-		fileWriter = new BufferedWriter(new FileWriter("SaveLog.txt"));
+		fileWriter = new BufferedWriter(new FileWriter(folderPath + "SaveLog.txt"));
 		fileWriter.write(saveLogContent);
 		fileWriter.write("[" + date + " at " + time + "] Save " + getSaveName(target) + " (" + "save" + saveNr + ") was restored from \"" + target + "\".\n");
 		fileWriter.close();
 		
 		System.out.println("Restored save \"" + getSaveName(target) + "\".\n");
-		System.out.println("More info about the restored save can be found in \"SaveLog.txt\".\n");
+		System.out.println("More info about the restored save can be found in \"SaveLog.txt\".\nPath to \"SaveLog.txt\" is \"" + folderPath + "\".\n");
+	}
+	
+	static String getFolder(String path) {
+		path = path.replace(File.separatorChar, '/');
+		StringBuilder folder = new StringBuilder(path);
+		folder.delete(path.lastIndexOf('/') + 1, path.length());
+		return folder.toString();
 	}
 	
 	static String getSavePath(String folder, int saveNr) throws Exception {
